@@ -95,7 +95,7 @@
         <div id="directions">
             <h3> How to install the Chrome extention </h3>
             <ul>
-                <li>Download this <a href="/files/what-was-siad.zip">zip</a> </li>
+                <li>Download this <a href="/files/">zip</a> </li>
                 <li>Unzip in my documents</li>
                 <li>Visit chrome://extensions in your browser</li>
                 <li>Ensure that the Developer Mode checkbox in the top right-hand corner is checked.</li>

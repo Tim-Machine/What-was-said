@@ -44,6 +44,11 @@ Route::get('/userlist.json',function(){
 Route::get('/temp','home@create');
 Route::post('/temp','home@create');
 
+Route::get('/files',function(){
+    return Response::download('public/downloads/what_was_said.zip') ;
+    
+});
+
 /*
 |--------------------------------------------------------------------------
 | Application 404 & 500 Error Handlers
