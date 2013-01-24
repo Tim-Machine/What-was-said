@@ -15,6 +15,9 @@
       body {
         padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
       }
+      #directions{
+          margin-top: 90px;
+      }
     </style>
     <link href="/css/bootstrap-responsive.css" rel="stylesheet">
 
@@ -88,6 +91,21 @@
 		</select>
 	</form>
 </div>
+      
+        <div id="directions">
+            <h3> How to install the Chrome extention </h3>
+            <ul>
+                <li>Download this <a href="/files/what-was-siad.zip">zip</a> </li>
+                <li>Unzip in my documents</li>
+                <li>Visit chrome://extensions in your browser</li>
+                <li>Ensure that the Developer Mode checkbox in the top right-hand corner is checked.</li>
+                <li>Navigate to the directory in which your extension files live, and select it.</li>
+                
+            </ul>
+            
+            
+        </div>
+        
         
         
     </div> <!-- /container -->
