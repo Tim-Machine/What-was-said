@@ -54,6 +54,7 @@ class Home_Controller extends Base_Controller {
             $entry->who     =   Input::get('who_id');
             $entry->what    =   Input::get('what');
             $entry->ment    =   Input::get('ment');
+            $entry->score   =   0; 
             
             if($entry->save())
             {
@@ -74,5 +75,91 @@ class Home_Controller extends Base_Controller {
     
     
     
+    public function action_vote()
+    {   
+        
+        $erromsg = "<div class=\"alert alert-error\">Something Went Wrong..</div>";
+        
+        // make sure all variables are set 
+        if( is_null(Input::get('direction')) || is_null(Input::get('id')) )
+        {
+            return $erromsg;
+        }
+        $id = Input::get("id");
+        
+        //checking to see if they have voted
+        if(!$this->canVote($id))
+        {
+            return "<div class=\"alert alert-error\">You have already voted</div>"; 
+        }
+            
+        
+        // get direction
+        $dir = Input::get('direction');
+        
+        // get entries
+        $data = What::find($id);
+        
+        //make sure min score is set
+        if($data->score == ""){
+            $data->score = 0 ; 
+        }
+        
+        
+        //change score
+        if( $dir == "up")
+        {
+            $data->score = $data->score + 1; 
+        }
+        if($dir == "down"){
+            $data->score = $data->score - 1; 
+        }
+        
+         
+        /// save the score
+        if($data->save())
+        {
+            $this->setCookies($id);
+            return "<div class=\"alert alert-success\">Thanks for your vote</div>";
+        }
+        else{
+            return $erromsg;
+        }
+        
+        
+        return "working...";
+    }
+    
+    private function canVote($id){
+        $canVote = true;
+        
+        
+        if(!is_null(Cookie::get('voted')))
+        {
+            $cookieArr = explode("_", Cookie::get('voted'));
+            
+            if(in_array($id, $cookieArr))
+                {
+                $canVote = false;
+                }
+        }
+        
+        return $canVote;
+    }
+    
+    private function setCookies($id)
+    {   
+        
+        if(is_null(Cookie::get('voted')))
+        {
+            $cookie = Cookie::get('voted')."_".$id;
+        }
+        else{
+            $cookie = $id;
+        }
+        
+        Cookie::forever('voted', $cookie); 
+        
+    }
     
 }

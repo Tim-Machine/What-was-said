@@ -39,14 +39,15 @@ Route::get('/userlist.json',function(){
     return json_encode(Who::lists('name','id'));
 });
 
+Route::post('/vote','home@vote');
+
 
 
 Route::get('/temp','home@create');
 Route::post('/temp','home@create');
 
 Route::get('/files',function(){
-    return Response::download('public/downloads/what_was_said.zip') ;
-    
+    return Response::download('public/downloads/what_was_said.zip') ; 
 });
 
 /*

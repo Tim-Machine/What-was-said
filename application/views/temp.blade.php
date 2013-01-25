@@ -33,7 +33,19 @@
         <?php echo Form::close(); ?>
         
         
-
+        <div>
+            <h3> How to install the Chrome extention </h3>
+            <ul>
+                <li>Download this <a href="/files/what-was-siad.zip">zip</a> </li>
+                <li>Unzip in my documents</li>
+                <li>Visit chrome://extensions in your browser</li>
+                <li>Ensure that the Developer Mode checkbox in the top right-hand corner is checked.</li>
+                <li>Navigate to the directory in which your extension files live, and select it.</li>
+                
+            </ul>
+            
+            
+        </div>
         
     </body>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>

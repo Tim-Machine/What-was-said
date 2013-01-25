@@ -14,6 +14,9 @@
     <style>
       body {
         padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+        background: #333;
+        color: #fff;
+        font-size: 16px;
       }
       #directions{
           margin-top: 90px;
@@ -55,18 +58,26 @@
     </div>
 
     <div class="container">
-
+        <div id="message" class="pull-right"></div>
                 <table id="myTable" class="tablesorter">
                     
                     <thead>
-                        <td>Who</td>
-                        <td>What was said</td>
-                        <td>What was meant</td>
+                        <tr>
+                        <th></th>
+                        <th>Who</th>
+                        <th>What was said</th>
+                        <th>What was meant</th>
+                        </tr>
                     </thead>
                     
                 
                 @foreach($entries as $entry)
-                <tr> 
+                <tr>
+                    <td>
+                        <span id="entry_{{$entry->id}}">{{$entry->score}}</span>
+                        <img src="/img/good.png" class="upvote" id="entry_{{$entry->id}}">
+                        <img src="/img/dislike.png" class="downvote" id="entry_{{$entry->id}}">
+                    </td>
                     <td>{{$entry->who->name}}</td>
                     <td>{{$entry->what}}</td>
                     <td>{{$entry->ment}}</td>
@@ -76,7 +87,7 @@
         
         
         
-    <div id="pager" class="pager" style="top: 1064px; position: absolute;">
+    <div id="pager" class="pager" style="top: 64px; position: relative;">
 	<form>
 		<img src="./img/first.png" class="first">
 		<img src="./img/prev.png" class="prev">
@@ -93,19 +104,19 @@
 </div>
       
         <div id="directions">
-            <h3> How to install the Chrome extention </h3>
+            <h3> How to install the Chrome Extensions </h3>
             <ul>
-                <li>Download this <a href="/files/">zip</a> </li>
+                <li>Download this <a href="/files/" target="_blank">zip</a> </li>
                 <li>Unzip in my documents</li>
-                <li>Visit chrome://extensions in your browser</li>
+                <li>Visit <a>chrome://extensions</a> in your browser</li>
                 <li>Ensure that the Developer Mode checkbox in the top right-hand corner is checked.</li>
+                <li>Click on  "Load unpackaged extension.." </li>
                 <li>Navigate to the directory in which your extension files live, and select it.</li>
                 
             </ul>
             
             
         </div>
-        
         
         
     </div> <!-- /container -->
@@ -122,7 +133,56 @@
     <script>
     $(document).ready(function() 
         { 
-            $("#myTable").tablesorter({widthFixed: true, widgets: ['zebra']}) .tablesorterPager({container: $("#pager")}); ; 
+            $("#myTable").tablesorter({widthFixed: true, widgets: ['zebra']}) .tablesorterPager({container: $("#pager")});
+            
+            
+            
+            
+            
+            
+            var vote = function(elm , direction){
+                
+                var id = elm.attr('id');
+                var idArry = id.split("_");
+                var score = $("span#"+id).html();
+                
+                
+                if(score === ''){
+                    score = 0; 
+                }
+                
+                score = parseInt(score);
+                
+                // edit score 
+                if(direction === 'up')
+                { score = score + 1;}
+                else if(direction === 'down')
+                {score = score - 1;}
+                
+              
+
+                $.ajax({
+                    url: "/vote",
+                    data: {direction :  direction  , id :  idArry[1]  },
+                     type: "POST"
+                  }).done(function(data) {
+                      
+                      if(!data === "<div class=\"alert alert-error\">You have already voted</div>")
+                      {
+                          $("span#"+id).html(score);
+                      }
+                      
+                   $("#message").html(data);
+                  
+                });
+                
+            }
+            
+            
+            $('.upvote').on('click',function(){
+                vote($(this),'up');
+            });
+            
         } 
     ); 
     </script>
